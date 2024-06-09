@@ -1,0 +1,242 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Quadrille Renderer # What is quadrille.js? # In words of J.P Charalambos (the mastermind of this library):
+p5.quadrille.js is an open-source p5.js library tailored for students, visual artists, and game designers. It supports the creation of puzzle and board games and the exploration of visual algorithms.
+Motivation. # I&rsquo;ve always been a fan of retro video games—the captivating music, the optimized gameplay, and that distinctive pixelated aesthetic. When I started studying the quadrille."><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://visualcomputing.github.io/graphics-playground/docs/shortcodes/Quadrille-Renderer/"><meta property="og:site_name" content="Graphics Playground"><meta property="og:title" content="Graphics Playground"><meta property="og:description" content="Quadrille Renderer # What is quadrille.js? # In words of J.P Charalambos (the mastermind of this library):
+p5.quadrille.js is an open-source p5.js library tailored for students, visual artists, and game designers. It supports the creation of puzzle and board games and the exploration of visual algorithms.
+Motivation. # I’ve always been a fan of retro video games—the captivating music, the optimized gameplay, and that distinctive pixelated aesthetic. When I started studying the quadrille."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2024-06-09T04:31:05-05:00"><title>Quadrille Renderer | Graphics Playground</title>
+<link rel=manifest href=/graphics-playground/manifest.json><link rel=icon href=/graphics-playground/favicon.png><link rel=canonical href=https://visualcomputing.github.io/graphics-playground/docs/shortcodes/Quadrille-Renderer/><link rel=stylesheet href=/graphics-playground/book.min.484e3cdc2f6e660df5c808d0eaf99198acde922db9728bc590485956e896548a.css integrity="sha256-SE483C9uZg31yAjQ6vmRmKzeki25covFkEhZVuiWVIo=" crossorigin=anonymous><script defer src=/graphics-playground/flexsearch.min.js></script><script defer src=/graphics-playground/en.search.min.f43d45ccf635070dac60bd127db33e0a361d9884bdf1ebe307b530e7d57f5fcb.js integrity="sha256-9D1FzPY1Bw2sYL0SfbM+CjYdmIS98evjB7Uw59V/X8s=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/graphics-playground/><span>Graphics Playground</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li class=book-section-flat><span>Shortcodes</span><ul><li><a href=/graphics-playground/docs/shortcodes/Quadrille-Renderer/ class=active>Quadrille Renderer</a></li></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/graphics-playground/svg/menu.svg class=book-icon alt=Menu>
+</label><strong>Quadrille Renderer</strong>
+<label for=toc-control><img src=/graphics-playground/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#quadrille-renderer>Quadrille Renderer</a><ul><li><a href=#what-is-quadrillejs>What is <code>quadrille.js</code>?</a></li><li><a href=#motivation>Motivation.</a></li><li><a href=#building-the-quadrille-software-renderer>Building the Quadrille Software Renderer.</a><ul><li><a href=#vectors-and-matrices>Vectors and Matrices</a></li><li><a href=#applying-transformations>Applying Transformations</a></li><li><a href=#rotation-and-perspective-projection>Rotation and Perspective Projection</a></li></ul></li><li><a href=#vertices-triangles-and-meshes>Vertices, Triangles, and Meshes</a><ul><li><a href=#discrete-lines>Discrete Lines</a></li><li><a href=#drawing-the-cube>Drawing the cube.</a></li></ul></li><li><a href=#future-work>Future Work</a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=quadrille-renderer>Quadrille Renderer
+<a class=anchor href=#quadrille-renderer>#</a></h1><iframe id=sketch style=width:510px;height:510px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.3/p5.min.js'></script>
+            
+            
+            
+            
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            
+            
+            
+            
+            <script src=/graphics-playground/sketches/quadrille-renderer/sketch.js></script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe><h2 id=what-is-quadrillejs>What is <code>quadrille.js</code>?
+<a class=anchor href=#what-is-quadrillejs>#</a></h2><p>In words of <a href=https://nakednous.github.io/>J.P Charalambos</a> (the mastermind of this library):</p><blockquote><p><a href=https://github.com/objetos/p5.quadrille.js>p5.quadrille.js</a> is an open-source p5.js library tailored for students, visual artists, and game designers. It supports the creation of <a href=https://en.wikipedia.org/wiki/Puzzle_video_game>puzzle</a> and board games and the exploration of visual algorithms.</p></blockquote><h2 id=motivation>Motivation.
+<a class=anchor href=#motivation>#</a></h2><p>I&rsquo;ve always been a fan of retro video games—the captivating music, the optimized gameplay, and that distinctive pixelated aesthetic. When I started studying the <code>quadrille.js</code> library, the first applications that came to mind were grid-based games like chess, sudoku, or sokoban. That was until I discovered the <a href=https://objetos.github.io/p5.quadrille.js/docs/visual_algorithms/rasterize_triangle/><code>rasterizeTriangle()</code></a> functionality.</p><p>This method allows you to visually approximate a triangle, the fundamental polygon in computer graphics and rendering, from three given cells. Considering this, I thought, if it&rsquo;s possible to rasterize a triangle, then it&rsquo;s possible to at least generate a software renderer.</p><h2 id=building-the-quadrille-software-renderer>Building the Quadrille Software Renderer.
+<a class=anchor href=#building-the-quadrille-software-renderer>#</a></h2><p>First of all, it&rsquo;s necessary to mention that I guided the steps for building the software renderer using the document <a href=https://docs.hektorprofe.net/graficos-3d/>Apuntes sobre programación de gráficos 3D</a> by Hector Costa. This document provides a step-by-step development of a renderer in <code>C++</code>.</p><p>There was no need to reinvent the wheel, so I only implemented/adapted certain components of a rendering engine. Others, like the color buffer and basic point drawing, were already provided by <code>p5.js</code> and <code>quadrille.js</code>, respectively.</p><h3 id=vectors-and-matrices>Vectors and Matrices
+<a class=anchor href=#vectors-and-matrices>#</a></h3><p>Vectors are everything in rendering. Without them, you wouldn&rsquo;t be able to use the camera, position your objects, or even have any point on the monitor. Matrices are the transformations within this world. They handle the movement of elements in a scene, their resizing, and the way we observe them.</p><p>For simplicity, I implemented them as plain JavaScript arrays, so they look like this:</p><pre tabindex=0><code>let vector_2D = [x, y];
+let vector_3D = [x, y, z];
+let matrix = [
+  [a, b, c], 
+  [d, e, f],
+  [g, h, i]
+];
+</code></pre><h3 id=applying-transformations>Applying Transformations
+<a class=anchor href=#applying-transformations>#</a></h3><p>To quickly apply a linear transformation to a vector, multiply the vector by a matrix; the result will be the transformed vector. Since I didn&rsquo;t plan on handling too many points at once, I&rsquo;m using a conventional matrix multiplication function.</p><pre tabindex=0><code>function axbQMatrix(A, B) {  
+  const rowsA = A.length;
+  const colsA = A[0].length;
+  const rowsB = B.length;
+  const colsB = B[0].length;
+
+  if (colsA !== rowsB) {
+      console.log(rowsA, colsA, rowsB, colsB);
+      throw new Error(&#39;Las dimensiones de las matrices no son compatibles para la multiplicación.&#39;);
+  }
+  
+  const result = [];
+  for (let i = 0; i &lt; rowsA; i++) {
+      result.push([]);
+      for (let j = 0; j &lt; colsB; j++) {
+          let sum = 0;
+          for (let k = 0; k &lt; colsA; k++) {
+              sum += (A[i][k] * B[k][j]);
+          }
+          
+          result[i][j] = sum;
+      }
+  }
+  
+  return result;
+}
+</code></pre><h3 id=rotation-and-perspective-projection>Rotation and Perspective Projection
+<a class=anchor href=#rotation-and-perspective-projection>#</a></h3><p>Both are linear transformations: one results in a vector rotated by a certain angle (I handle this in radians) and the other projects a three-dimensional vector onto a plane, in this case, the screen; which means it goes from having three components to only two.</p><p>To rotate around the X-axis and project a vector, I implemented these simple functions:</p><pre tabindex=0><code>function rotX(v, ang){
+  rm = [[1, 0, 0], 
+        [0, cos(ang), -sin(ang)], 
+        [0, sin(ang), cos(ang)]]
+  return axbQMatrix([v], rm)[0];
+}
+
+function qPerspective(point, fov, cam, center){
+  let p = [... point];
+  p[2] -= cam[2];
+  pm = [[fov / p[2], 0], 
+        [0, fov / p[2]], 
+        [center[0] / p[2], center[1] / p[2]]];
+  return axbQMatrix([p], pm);
+}
+</code></pre><p>We will also want to apply these transformations en masse to sets of points rather than just one.</p><pre tabindex=0><code>function qRotateX(points, ang){
+  for (let i = 0; i &lt; points.length; i++){
+    //console.log(&#39;Punto:&#39;,i , points[i]);
+    points[i] = rotX(points[i], ang);
+  }
+  return points;
+}
+
+function proy(points, fov, cam, center){  
+  let proy_points = []
+  for (let i = 0; i &lt; points.length; i++){
+    proy_points.push(qPerspective(points[i], fov, cam, center));
+  } 
+  return proy_points;
+}
+</code></pre><h2 id=vertices-triangles-and-meshes>Vertices, Triangles, and Meshes
+<a class=anchor href=#vertices-triangles-and-meshes>#</a></h2><p>Thanks to its simplicity, the triangle can compose any polygon that one might propose, forming the basis of any 3D model. A triangle consists of three vertices, and these are represented as points in space.</p><p>A mesh is a collection of vertices and the triangles they form. We will use these two components to define a cube.</p><pre tabindex=0><code>...
+let cubo;
+...
+function setup(){
+    ...
+    cubo = {
+        vertices: [
+            [-1, -1, -1],  // 0
+            [ 1, -1, -1],  // 1
+            [-1,  1, -1],  // 2
+            [ 1,  1, -1],  // 3
+            [-1, -1,  1],  // 4
+            [ 1, -1,  1],  // 5
+            [-1,  1,  1],  // 6
+            [ 1,  1,  1]   // 7
+        ],
+        triangles: [
+            // front    -&gt;
+            [1, 0, 2],
+            [1, 2, 3],
+            // back     &lt;-
+            [4, 5, 7],
+            [4, 7, 6],
+            // right    -&gt;
+            [1, 7, 5],
+            [1, 3, 7],
+            // left     &lt;-
+            [4, 2, 0], 
+            [4, 6, 2],
+            // top      -&gt;
+            [2, 7, 3], 
+            [2, 6, 7],
+            // bottom   &lt;- 
+            [1, 5, 4], 
+            [1, 4, 0] 
+        ]
+    };
+    ...
+}
+</code></pre><p>It&rsquo;s important to be able to handle a triangle directly from the vertices that compose it, that is, as a set of points represented as a matrix.</p><pre tabindex=0><code>let triang = [
+    [x0, y0, z0],
+    [x1, y1, z1], 
+    [x2, y2, z2]
+];
+</code></pre><p>This is why I implemented a method to read the vertex labels in a mesh and thus obtain a triangle that&rsquo;s easier to handle. As with the transformations, another function was implemented to apply this in series to the entire mesh and transform it into a single set of triangles.</p><pre tabindex=0><code>function triang(shp, labels){
+  let qTriangle = [];
+  for (let i = 0; i &lt; labels.length; i++){    qTriangle.push(shp.vertices[labels[i]]);  
+  }
+  return qTriangle;
+}
+
+function qTriangles(shp){
+  let qTriangleList = [];
+  for (let i = 0; i &lt; shp.triangles.length; i++){
+    qTriangleList.push(triang(shp, shp.triangles[i]));
+  }  
+  return qTriangleList;
+}
+</code></pre><p>Finally, projection functions are used to transform the triangles into screen space.</p><pre tabindex=0><code>function qProyectTriangles(triangles, fov, cam, center){
+  let triang2D = [];
+  for (let i = 0; i &lt; triangles.length; i++){
+    triang2D.push(proy(triangles[i], fov, cam, center));
+  }
+  return triang2D;
+}
+</code></pre><h3 id=discrete-lines>Discrete Lines
+<a class=anchor href=#discrete-lines>#</a></h3><p>The <a href=https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm>Bresenham&rsquo;s Algorithm</a> allows us to represent a line in a discrete space, in this case, a grid. The variant I implemented applies a floor function to the points of the function to ensure integer values and correctly reference the cells.</p><pre tabindex=0><code>function quaLine(x0, y0, x1, y1, quad, c) {
+  x0 = Math.floor(x0);
+  x1 = Math.floor(x1);
+  y0 = Math.floor(y0);
+  y1 = Math.floor(y1);
+  let dx = x1 - x0;
+  let dy = y1 - y0;
+  let x = x0; 
+  let y = y0;
+  let sx = (dx &gt; 0) ? 1 : -1;
+  let sy = (dy &gt; 0) ? 1 : -1;
+  dx = Math.abs(dx);
+  dy = Math.abs(dy);
+  let e;
+
+  if (dx &gt; dy) {
+    e = dx / 2;
+    while (x != x1) {
+      quad.fill(x, y, c);
+      x += sx;
+      e -= dy;
+      if (e &lt; 0) {
+        y += sy;
+        e += dx;
+      }
+    }
+  } else {
+    e = dy / 2;
+    while (y != y1) {
+      quad.fill(x, y, c);
+      y += sy;
+      e -= dx;
+      if (e &lt; 0) {
+        x += sx;
+        e += dy;
+      }
+    }
+  }
+  quad.fill(x1, y1, c); // Asegura pintar el punto final
+}
+</code></pre><p>Similarly, these lines are used to represent a single triangle, and finally, they can be applied to a set of these elements.</p><pre tabindex=0><code>function qTriangleLine(triang2D, quad, c){
+  quaLine(triang2D[0][0], triang2D[0][1], triang2D[1][0], triang2D[1][1], quad, c);
+  quaLine(triang2D[0][0], triang2D[0][1], triang2D[2][0], triang2D[2][1], quad, c);
+  quaLine(triang2D[1][0], triang2D[1][1], triang2D[2][0], triang2D[2][1], quad, c);
+}
+
+function qRenderLines(triangles, quad, c){
+  //console.log(&#39;renderizando lineas&#39;);
+  for (let i = 0; i &lt; triangles.length; i++){
+    qTriangleLine(triangles[i], quad, c);
+  }
+}
+</code></pre><h3 id=drawing-the-cube>Drawing the cube.
+<a class=anchor href=#drawing-the-cube>#</a></h3><p>I simulated the camera solely with a vector having a non-zero value in its <em>z</em> component and assigning a field of view (fov). Additionally, the origin (coordinate center) was defined as the center of the grid.</p><pre tabindex=0><code>...
+
+let qCam, origen, fov;
+
+function setup(){
+    ...
+    qCam = [0, 0, -4];
+    origen = [ROWS / 2, COLS / 2];
+    fov = 50; 
+    ...
+}
+</code></pre><p>Finally, the functions are applied sequentially to correctly render the cube. It&rsquo;s important to remember that transformations are always applied before projection.</p><pre tabindex=0><code>function draw() {
+  background(0);
+  quadrille.clear();
+  
+  qRotateX(cubo.vertices, 0.06);  
+  let triangs3D = qTriangles(cubo);
+  let triangs2D = qProyectTriangles(triangs3D, fov, qCam, origen);
+  qRenderLines(triangs2D, quadrille, color(255));
+  
+  drawQuadrille(quadrille, {outline: &#39;green&#39; });
+} 
+</code></pre><h2 id=future-work>Future Work
+<a class=anchor href=#future-work>#</a></h2><p>This experiment yielded promising results considering the simplicity of the implementation. In case of continuing with the development of a software renderer based on <code>quadrille.js</code>, optimizations such as face culling and z-buffering are desired to be implemented. Additionally, studying the performance of Quadrille when rendering multiple solids using cells as pixels would be beneficial. Once this process is complete, consideration could be given to expanding the tool by supporting more primitives and beginning the integration of lighting models.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/visualcomputing/graphics-playground/commit/ab6680a503d4de3f0d5a61963dc4422bafae8923 title='Last modified by Diego Fernando Bulla Poveda | June 9, 2024' target=_blank rel=noopener><img src=/graphics-playground/svg/calendar.svg class=book-icon alt>
+<span>June 9, 2024</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#quadrille-renderer>Quadrille Renderer</a><ul><li><a href=#what-is-quadrillejs>What is <code>quadrille.js</code>?</a></li><li><a href=#motivation>Motivation.</a></li><li><a href=#building-the-quadrille-software-renderer>Building the Quadrille Software Renderer.</a><ul><li><a href=#vectors-and-matrices>Vectors and Matrices</a></li><li><a href=#applying-transformations>Applying Transformations</a></li><li><a href=#rotation-and-perspective-projection>Rotation and Perspective Projection</a></li></ul></li><li><a href=#vertices-triangles-and-meshes>Vertices, Triangles, and Meshes</a><ul><li><a href=#discrete-lines>Discrete Lines</a></li><li><a href=#drawing-the-cube>Drawing the cube.</a></li></ul></li><li><a href=#future-work>Future Work</a></li></ul></li></ul></nav></div></aside></main></body></html>
