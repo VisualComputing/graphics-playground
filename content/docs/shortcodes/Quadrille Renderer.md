@@ -3,7 +3,7 @@ weight: 1
 ---
 # Quadrille Renderer
 
-{{< p5-iframe sketch="/graphics-playground/sketches/quadrille-renderer/sketch.js" lib1= "https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js" width="510" height="510" >}}
+{{< p5-iframe sketch="/graphics-playground/sketches/quadrille-renderer/sketch.js" lib1= "https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js" width="520" height="520">}}
 
 ## What is `quadrille.js`?
 
@@ -92,7 +92,7 @@ function qPerspective(point, fov, cam, center){
   pm = [[fov / p[2], 0], 
         [0, fov / p[2]], 
         [center[0] / p[2], center[1] / p[2]]];
-  return axbQMatrix([p], pm);
+  return axbQMatrix([p], pm)[0];
 }
 ```
 We will also want to apply these transformations en masse to sets of points rather than just one.

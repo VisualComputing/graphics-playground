@@ -1,6 +1,5 @@
-const ROWS = 100;
-const COLS = 100;
-Quadrille.cellLength = 5;
+const ROWS = 80;
+const COLS = 80;
 let quadrille;
 
 let cubo;
@@ -11,6 +10,7 @@ let origen;
 function setup() {
   createCanvas(COLS * Quadrille.cellLength, ROWS * Quadrille.cellLength);
   angleMode(RADIANS);
+  Quadrille.cellLength = 5;
   Quadrille.outlineWeight = 0;
   quadrille = createQuadrille(ROWS, COLS);
   cubo = {
@@ -54,9 +54,10 @@ function draw() {
   background(0);
   quadrille.clear();
   
-  qRotateX(cubo.vertices, 0.08);  
+  qRotateX(cubo.vertices, 0.1);  
   let triangs3D = qTriangles(cubo);
   let triangs2D = qProyectTriangles(triangs3D, fov, qCam, origen);
+  
   qRenderLines(triangs2D, quadrille, color(255));
   
   drawQuadrille(quadrille, {outline: 'green' });
@@ -79,7 +80,7 @@ function quaLine(x0, y0, x1, y1, quad, c) {
   let sy = (dy > 0) ? 1 : -1;
   dx = Math.abs(dx);
   dy = Math.abs(dy);
-  let e;
+  let e = 0;
 
   if (dx > dy) {
     e = dx / 2;
@@ -111,13 +112,6 @@ function qTriangleLine(triang2D, quad, c){
   quaLine(triang2D[0][0], triang2D[0][1], triang2D[1][0], triang2D[1][1], quad, c);
   quaLine(triang2D[0][0], triang2D[0][1], triang2D[2][0], triang2D[2][1], quad, c);
   quaLine(triang2D[1][0], triang2D[1][1], triang2D[2][0], triang2D[2][1], quad, c);
-  /*
-  quad.rasterizeTriangle(triang2D[0][0], triang2D[0][1], 
-                              triang2D[1][0], triang2D[1][1], 
-                              triang2D[2][0], triang2D[2][1],
-                              colorizeShader,
-                              [255, 0, 0], [0, 255, 0], [0, 0, 255]);
-  */
 }
 
 function qRenderLines(triangles, quad, c){
@@ -140,7 +134,6 @@ function qTriangles(shp){
   for (let i = 0; i < shp.triangles.length; i++){
     qTriangleList.push(triang(shp, shp.triangles[i]));
   }
-  
   return qTriangleList;
 }
 
@@ -167,7 +160,7 @@ function qPerspective(point, fov, cam, center){
   pm = [[fov / p[2], 0], 
         [0, fov / p[2]], 
         [center[0] / p[2], center[1] / p[2]]];
-  return axbQMatrix([p], pm);
+  return axbQMatrix([p], pm)[0];
 }
 
 function proy(points, fov, cam, center){  
