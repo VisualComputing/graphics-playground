@@ -8,10 +8,11 @@ let fov;
 let origen;
 
 function setup() {
-  createCanvas(COLS * Quadrille.cellLength, ROWS * Quadrille.cellLength);
-  angleMode(RADIANS);
   Quadrille.cellLength = 5;
   Quadrille.outlineWeight = 0;
+  createCanvas(COLS * Quadrille.cellLength, ROWS * Quadrille.cellLength);
+  angleMode(RADIANS);
+  console.log(width, height);
   quadrille = createQuadrille(ROWS, COLS);
   cubo = {
     vertices: [
@@ -54,7 +55,7 @@ function draw() {
   background(0);
   quadrille.clear();
   
-  qRotateX(cubo.vertices, 0.1);  
+  qRotateX(cubo.vertices, 0.05);  
   let triangs3D = qTriangles(cubo);
   let triangs2D = qProyectTriangles(triangs3D, fov, qCam, origen);
   

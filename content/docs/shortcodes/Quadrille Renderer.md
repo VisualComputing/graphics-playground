@@ -3,7 +3,7 @@ weight: 1
 ---
 # Quadrille Renderer
 
-{{< p5-iframe sketch="/graphics-playground/sketches/quadrille-renderer/sketch.js" lib1= "https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js" width="520" height="520">}}
+{{< p5-iframe sketch="/graphics-playground/sketches/quadrille-renderer/sketch.js" lib1= "https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js" width="450" height="450" >}}
 
 ## What is `quadrille.js`?
 
